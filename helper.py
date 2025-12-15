@@ -34,7 +34,6 @@ def render_results_in_image(in_pil_img, in_results):
 
     plt.axis("off")
 
-    # Save the modified image to a BytesIO object
     img_buf = io.BytesIO()
     plt.savefig(img_buf, format='png',
                 bbox_inches='tight',
@@ -42,7 +41,6 @@ def render_results_in_image(in_pil_img, in_results):
     img_buf.seek(0)
     modified_image = Image.open(img_buf)
 
-    # Close the plot to prevent it from being displayed
     plt.close()
 
     return modified_image
@@ -70,25 +68,20 @@ def summarize_predictions_natural_language(predictions):
         if i == len(summary) - 2:
           result_string += "and "
 
-    # Remove the trailing comma and space
     result_string = result_string.rstrip(', ') + "."
 
     return result_string
 
 
-##### To ignore warnings #####
 import warnings
 import logging
 from transformers import logging as hf_logging
 
 def ignore_warnings():
-    # Ignore specific Python warnings
     warnings.filterwarnings("ignore", message="Some weights of the model checkpoint")
     warnings.filterwarnings("ignore", message="Could not find image processor class")
     warnings.filterwarnings("ignore", message="The `max_size` parameter is deprecated")
 
-    # Adjust logging for libraries using the logging module
     logging.basicConfig(level=logging.ERROR)
     hf_logging.set_verbosity_error()
 
-########
